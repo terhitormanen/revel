@@ -48,8 +48,10 @@ var httpLog = RevelLog.New("section", "http")
 type Response struct {
 	Status      int
 	ContentType string
-	Out         OutResponse
-	writer      io.Writer
+	// Set ETag
+	ETag   string
+	Out    OutResponse
+	writer io.Writer
 }
 
 // The output response
@@ -246,6 +248,8 @@ func (resp *Response) Destroy() {
 	resp.Out.Destroy()
 	resp.Status = 0
 	resp.ContentType = ""
+	// Modified by TT
+	resp.ETag = ""
 	resp.writer = nil
 }
 

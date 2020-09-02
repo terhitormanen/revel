@@ -1,13 +1,11 @@
 package revel
 
 import (
-	"net"
-	"net/http"
-	"time"
 	"context"
-	"golang.org/x/net/websocket"
 	"io"
 	"mime/multipart"
+	"net"
+	"net/http"
 	"net/url"
 	"os"
 	"os/signal"
@@ -15,7 +13,10 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
+
 	"github.com/revel/revel/utils"
+	"golang.org/x/net/websocket"
 )
 
 // Register the GoHttpServer engine
@@ -477,7 +478,7 @@ func (r *GoResponse) WriteStream(name string, contentlen int64, modtime time.Tim
 				h := r.Original.Header()
 				delete(h, "Content-Type")
 				delete(h, "Content-Length")
-				if h.Get("Etag") != "" {
+				if h.Get("ETag") != "" {
 					delete(h, "Last-Modified")
 				}
 				r.Original.WriteHeader(http.StatusNotModified)
@@ -495,7 +496,7 @@ func (r *GoResponse) WriteStream(name string, contentlen int64, modtime time.Tim
 		if _, err := io.Copy(r.Writer, reader); err != nil {
 			r.Original.WriteHeader(http.StatusInternalServerError)
 			return err
-		} 
+		}
 	}
 	return nil
 }

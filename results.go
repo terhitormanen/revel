@@ -410,6 +410,10 @@ func (r *BinaryResult) Apply(req *Request, resp *Response) {
 		contentType := ContentTypeByFilename(r.Name)
 		resp.Out.internalHeader.Set("Content-Type", contentType)
 	}
+	// ETag
+	if resp.ETag != "" {
+		resp.Out.internalHeader.Set("ETag", resp.ETag)
+	}
 	if content, ok := r.Reader.(io.ReadSeeker); ok && r.Length < 0 {
 		// get the size from the stream
 		// go1.6 compatibility change, go1.6 does not define constants io.SeekStart
